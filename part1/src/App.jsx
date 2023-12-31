@@ -19,35 +19,49 @@ const Header = (props) =>{
 }
 
 const Component =(props)=>{
+    
+    const displayItems = props.parts.map(element=><li key={element.name}>{element.name}:{element.exercises}</li>)
     return(
       <>
-      <p>
-      <Part name={props.name} exercises={props.exercises}/>
-      </p>
+        <ul>{displayItems}</ul>
       </>
     )
 }
 
 const Total = (props) =>{
+  let total = 0;
+  props.parts.forEach(part=>{
+    total+=part.exercises;
+  })
   return(
     <>
-    <p>Total: {props.one + props.two + props.three}</p>
+    <p>Total: {total}</p>
     </>
   )
 }
 
 function App() {
   const title = "Half Stack application development";
-  const one = 10;
-  const two = 7;
-  const three= 3;
+  const parts = [
+    {
+      name:"Fundamentals of React",
+      exercises:10
+    },
+    {
+      name:"Using props to pass data",
+      exercises:7
+    },
+    {
+      name:"State of a component",
+      exercises:3
+    }
+  ]
+
   return (
     <div>
       <Header title={title}/>
-      <Component name={"Fundamentals of React"} exercises={one}></Component>
-      <Component name={"Using props to pass data"} exercises={two}></Component>
-      <Component name={"State of a component"} exercises={three}></Component>
-      <Total one={one} two={two} three={three}/>
+      <Component parts={parts}/>
+      <Total parts={parts}></Total>
     </div>
   )
 }
