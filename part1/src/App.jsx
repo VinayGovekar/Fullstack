@@ -40,7 +40,7 @@ const Total = (props) =>{
   )
 }
 
-function App() {
+const Part1A = ()=>{
   const title = "Half Stack application development";
   const parts = [
     {
@@ -62,6 +62,26 @@ function App() {
       <Header title={title}/>
       <Component parts={parts}/>
       <Total parts={parts}></Total>
+    </div>
+  )
+}
+
+const Display =({counter})=><>{counter}</>
+
+const Button = ({onClick,text}) =><><button onClick={onClick}>{text}</button></>
+
+function App() {
+  const [counter, setCounter] = useState(0)
+  const handleClick =()=> setCounter(counter+1);
+  const resetCounter = ()=> setCounter(0);
+  return (
+    <div>
+      <Display counter={counter}/>
+      <p>
+      <Button onClick={handleClick} text={"Increment"}/>
+      <Button onClick={()=>setCounter(counter-1)} text={"Decrement"}/>
+      <Button onClick={resetCounter} text={"Reset"} />
+      </p>
     </div>
   )
 }
