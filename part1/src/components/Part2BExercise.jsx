@@ -1,60 +1,61 @@
 import { useState } from "react"
+import PersonForm from "./PersonForm"
+import Phonebook from "./Phonebook"
 const Part2BExercise = ()=>{
     const [persons, setPersons] = useState([
-        { 
-            id:1,
-            name: 'Arto Hellas',
-            important:true
-        }
+        { name: 'Arto Hellas', phone: '040-123456', important:true,id: 1 },
+        { name: 'Ada Lovelace', phone: '39-44-5323523', id: 2, important:true },
+        { name: 'Dan Abramov', phone: '12-43-234345', id: 3, important:false },
+        { name: 'Mary Poppendieck', phone: '39-23-6423122', id: 4 , important:false}
       ]) 
       const [newName, setNewName] = useState('')
+      const [newPhone,setNewPhone] = useState('')
 
       const onNameInputChange = (event) => setNewName(event.target.value)
+      const onPhoneInputChange = (event) => setNewPhone(event.target.value)
       const [showAll,setShowAll] = useState(true)
-    
       const personsToShow=showAll?persons:persons.filter(person=>person.important)
 
-      const ValidateName = ()=>{
-        if(newName==="") return false
-        if(persons.find(person=>person.name===newName)===undefined) return true
-        return false
+      const ValidateForm = ()=>{
+        if(newName==="") return "Name cannot be empty"
+        if(newPhone==="") return "Phone number cannot be empty"
+        if(persons.find(person=>person.name===newName)===undefined) return ""
+        return `${newName} person is already present`
       }
 
       const onNoteSubmit=(event)=>{
         event.preventDefault()
-        if(ValidateName()){
+        let message=ValidateForm()
+        if(message===""){
             const newPerson = {
                 name:newName,
+                phone:newPhone,
                 id:persons.length+1,
                 important:Math.Random<0.5
             }
             setPersons(persons.concat(newPerson))
             setNewName("")
+            setNewPhone("")
         }
-        else alert(`${newName} person is already present`)
+        else alert(message)
        
       }
 
-      const handleShowAll = ()=>{
+      const handleShowAll = (event)=>{
+        event.preventDefault()
         console.log(persons)
         setShowAll(!showAll)
       }
       return (
         <div>
-          <h2>Phonebook</h2>
-          <form onSubmit={onNoteSubmit}>
-            <div>
-              Name: <input value={newName} onChange={onNameInputChange} />
-            </div>
-            <div>
-              <button type="submit" >Add</button>
-            </div>
-          </form>
-          <button onClick={handleShowAll}>Show {showAll?"Important":"All"}</button>
-          <h2>Numbers</h2>
-            <ul>
-                {personsToShow.map(person=> <li key={person.id}>{person.name}</li>)}
-            </ul>
+            <PersonForm 
+            newName={newName} 
+            phoneNumber={newPhone}
+            onNoteSubmit={onNoteSubmit} 
+            onNameInputChange ={onNameInputChange}
+            onPhoneInputChange={onPhoneInputChange}
+            />
+            <Phonebook persons={personsToShow} showAll={showAll} handleShowAll={handleShowAll} />
         </div>
       )
 }
