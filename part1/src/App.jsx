@@ -5,11 +5,12 @@ import Shivam from './components/Shivam'
 import Part1D from './components/Part1D'
 import Part1DExecise from './components/Part1DExercise'
 import Part1DExercise2 from './components/Part1DExercise2'
+import Part2AExercise from './components/Part2AExercise'
 
 function App() {
   return(
     <>
-    <Part1DExercise2/>
+    <Part2AExercise/>
     </>
   )
 }
