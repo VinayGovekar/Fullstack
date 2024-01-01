@@ -10,16 +10,34 @@ const Part2BExercise = ()=>{
       const [newName, setNewName] = useState('')
 
       const onNameInputChange = (event) => setNewName(event.target.value)
+      const [showAll,setShowAll] = useState(true)
     
+      const personsToShow=showAll?persons:persons.filter(person=>person.important)
+
+      const ValidateName = ()=>{
+        if(newName==="") return false
+        if(persons.find(person=>person.name===newName)===undefined) return true
+        return false
+      }
+
       const onNoteSubmit=(event)=>{
         event.preventDefault()
-        const newPerson = {
-            name:newName,
-            id:persons.length+1,
-            important:Math.Random<0.5
+        if(ValidateName()){
+            const newPerson = {
+                name:newName,
+                id:persons.length+1,
+                important:Math.Random<0.5
+            }
+            setPersons(persons.concat(newPerson))
+            setNewName("")
         }
-        setPersons(persons.concat(newPerson))
-        setNewName("")
+        else alert(`${newName} person is already present`)
+       
+      }
+
+      const handleShowAll = ()=>{
+        console.log(persons)
+        setShowAll(!showAll)
       }
       return (
         <div>
@@ -32,9 +50,10 @@ const Part2BExercise = ()=>{
               <button type="submit" >Add</button>
             </div>
           </form>
+          <button onClick={handleShowAll}>Show {showAll?"Important":"All"}</button>
           <h2>Numbers</h2>
             <ul>
-                {persons.map(person=> <li key={person.id}>{person.name}</li>)}
+                {personsToShow.map(person=> <li key={person.id}>{person.name}</li>)}
             </ul>
         </div>
       )
