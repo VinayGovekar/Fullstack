@@ -1,5 +1,6 @@
 import { useState } from "react"
 import VoteQuote from "./VoteQuote"
+import MostVote from "./MostVote";
 
 const Part1DExercise2 = ()=>{
 
@@ -21,7 +22,6 @@ const Part1DExercise2 = ()=>{
     }
     ]
     let maxVote=0;
-    let quoteWithMaxVote =null
     const [voteCount,setVote] =useState(quotes);
     const [selectedVote,setSelected] = useState(0);
     const handleNextButtonClick = () =>{
@@ -33,17 +33,16 @@ const Part1DExercise2 = ()=>{
             setSelected(selectedVote+1)
         }
     } 
-    // const GetQuoteWithMaxVote = (newQuotes) =>{
-    //     newQuotes.forEach(quote=>{
-    //         if(quote.vote>maxVote) maxVote=quote.vote
-    //     });
-    //     console.log(maxVote);
-    // }
+    const GetQuoteWithMaxVote = (newQuotes) =>{
+        newQuotes.forEach(quote=>{
+            if(quote.vote>maxVote) maxVote=quote.vote
+        });
+        return newQuotes.find(item=>item.vote===maxVote)
+    }
 
     const handleVoteThisQuote = ()=>{
         let newVotes = JSON.parse(JSON.stringify(voteCount))
         newVotes[selectedVote].vote+=1
-        console.log(newVotes)
         setVote(newVotes)
     }
     return(
@@ -53,8 +52,8 @@ const Part1DExercise2 = ()=>{
         count={voteCount[selectedVote].vote} 
         handleNextButtonClick={handleNextButtonClick} 
         handleVoteThisQuote={handleVoteThisQuote}
-
         />
+        <MostVote quote={GetQuoteWithMaxVote(voteCount)} />
         </>
     )
 }
