@@ -20,14 +20,14 @@
     {
       "name": "Arto Hellas",
       "phone": "040-123456",
-      "important": true,
+      "important": false,
       "id": 1
     },
     {
       "name": "Ada Lovelace",
       "phone": "39-44-5323523",
       "id": 2,
-      "important": true
+      "important": false
     },
     {
       "name": "Dan Abramov",
@@ -40,6 +40,24 @@
       "phone": "39-23-6423122",
       "id": 4,
       "important": false
+    },
+    {
+      "name": "Shivam",
+      "phone": "12345",
+      "id": 5,
+      "important": false
+    },
+    {
+      "name": "Raju",
+      "phone": "123456",
+      "id": 6,
+      "important": true
+    },
+    {
+      "name": "Vinay",
+      "phone": "122536436",
+      "id": 7,
+      "important": true
     }
   ]
 }

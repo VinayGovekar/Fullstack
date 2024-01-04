@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState,useEffect } from "react"
 import PersonForm from "./PersonForm"
 import Phonebook from "./Phonebook"
 import FilterPhoneBook from "./FilterPhoneBook"
@@ -6,11 +6,17 @@ import axios from "axios"
 const Part2BExercise = ()=>{
     const [persons, setPersons] = useState([]) 
 
-    axios
-    .get("http://localhost:3001/persons")
-    .then(response =>{
+
+    useEffect(() => {
+      console.log('effect')
+      axios
+      .get("http://localhost:3001/persons")
+      .then(response =>{
       setPersons(response.data)
-    })
+      setFilterPersons(response.data)
+      })
+    }, [])
+
       const [newName, setNewName] = useState('')
       const [newPhone,setNewPhone] = useState('')
       const [showAll,setShowAll] = useState(true)
@@ -47,10 +53,15 @@ const Part2BExercise = ()=>{
                 id:persons.length+1,
                 important:Math.Random<0.5
             }
-            setPersons(persons.concat(newPerson))
-            setFilterPersons(persons.concat(newPerson))
-            setNewName("")
-            setNewPhone("")
+            axios
+            .post("http://localhost:3001/persons",newPerson)
+            .then(response=>{
+              setPersons(persons.concat(response.data))
+              setFilterPersons(persons.concat(response.data))
+              setNewName("")
+              setNewPhone("")
+            })
+            
         }
         else alert(message)
        
@@ -60,6 +71,19 @@ const Part2BExercise = ()=>{
         event.preventDefault()
         console.log(persons)
         setShowAll(!showAll)
+      }
+
+      const toggleImportance=(id)=>{
+        console.log(`Toggle importance of ${id}`)
+        var putUrl = `http://localhost:3001/persons/${id}`
+        var oldPerson = persons.find(person=>person.id===id);
+        var updatedPerson = {...oldPerson,important:!oldPerson.important}
+
+        axios
+        .put(putUrl,updatedPerson)
+        .then(response=>{
+          setPersons(persons.map(person=>person.id!==id?person:response.data))
+        })
       }
       return (
         <div>
@@ -78,7 +102,7 @@ const Part2BExercise = ()=>{
             onFilterChange={onFilterChange}
             />
             <Phonebook 
-            persons={personsToShow} />
+            persons={personsToShow} toggleImportance={toggleImportance} />
             
         </div>
       )

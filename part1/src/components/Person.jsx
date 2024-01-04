@@ -1,8 +1,10 @@
-const Person = ({name})=>
+import Button from "./Button"
+
+const Person = ({person,toggleImportance})=>
 {
     return(
         <>
-        <li>{name}</li>
+        <li>{person.name} <Button onClick={toggleImportance} text={person.important?"True":"False"} /> </li>
         </>
     )
 }
