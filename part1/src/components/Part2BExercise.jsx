@@ -2,13 +2,15 @@ import { useState } from "react"
 import PersonForm from "./PersonForm"
 import Phonebook from "./Phonebook"
 import FilterPhoneBook from "./FilterPhoneBook"
+import axios from "axios"
 const Part2BExercise = ()=>{
-    const [persons, setPersons] = useState([
-        { name: 'Arto Hellas', phone: '040-123456', important:true,id: 1 },
-        { name: 'Ada Lovelace', phone: '39-44-5323523', id: 2, important:true },
-        { name: 'Dan Abramov', phone: '12-43-234345', id: 3, important:false },
-        { name: 'Mary Poppendieck', phone: '39-23-6423122', id: 4 , important:false}
-      ]) 
+    const [persons, setPersons] = useState([]) 
+
+    axios
+    .get("http://localhost:3001/persons")
+    .then(response =>{
+      setPersons(response.data)
+    })
       const [newName, setNewName] = useState('')
       const [newPhone,setNewPhone] = useState('')
       const [showAll,setShowAll] = useState(true)
